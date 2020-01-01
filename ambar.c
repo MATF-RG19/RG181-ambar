@@ -2,6 +2,7 @@
 #include<GL/glut.h>
 
 static void on_display();
+static void on_keyboard(unsigned char * key, int x, int y);
 
 int main(int argc, char ** argv){
   glutInit(&argc, argv);
