@@ -13,7 +13,8 @@ const static float k_size = 0.05;
 static float k_x, k_y, k_vx, k_vy;
 const static float l_size = 0.1;
 static float lgornji_x, lgornji_y, ldonji_x, ldonji_y, ldesni_x, ldesni_y,llevi_x, llevi_y;
-
+const static float p_size = 0.025;
+static float p_x, p_y, p_vx, p_vy;
 
 static void on_display();
 static void on_keyboard(unsigned char key, int x, int y);
@@ -39,6 +40,14 @@ int main(int argc, char ** argv){
 
   k_vx = -k_size/2 + k_size*rand()/(float)RAND_MAX;
   k_vy = -k_size/2 + k_size*rand()/(float)RAND_MAX;
+
+
+  srand(time(NULL));
+  p_x = -(1-p_size/2) + (2-p_size)*rand()/(float) RAND_MAX;
+  p_y = -(1-p_size/2) + (2-p_size)*rand()/(float) RAND_MAX;
+
+  p_vx = -p_size/2 + p_size*rand()/(float)RAND_MAX;
+  p_vy = -p_size/2 + p_size*rand()/(float)RAND_MAX;
   
   glClearColor(0.75, 0.4, 0.2, 0);
   glEnable(GL_DEPTH_TEST);
@@ -91,7 +100,16 @@ static void on_display(){
   glVertex3f(k_x-k_size/2, k_y-k_size/2, 0);
   glVertex3f(k_x-k_size/2, k_y+k_size/2, 0);
   glEnd();
-  
+
+
+  glBegin(GL_POLYGON);
+  glColor3f(1, 0, 1);
+  glVertex3f(p_x+p_size/2, p_y+p_size/2, 0);
+  glVertex3f(p_x+p_size/2, p_y-p_size/2, 0);
+  glVertex3f(p_x-p_size/2, p_y-p_size/2, 0);
+  glVertex3f(p_x-p_size/2, p_y+p_size/2, 0);
+  glEnd();
+ 
   
   glutSwapBuffers();
 }
@@ -111,6 +129,13 @@ static void on_keyboard(unsigned char key, int x, int y){
     k_vx = -k_size/2 + k_size*rand()/(float)RAND_MAX;
     k_vy = -k_size/2 + k_size*rand()/(float)RAND_MAX;
 
+
+    srand(time(NULL));
+    p_x = -(1-p_size/2) + (2-p_size)*rand()/(float) RAND_MAX;
+    p_y = -(1-p_size/2) + (2-p_size)*rand()/(float) RAND_MAX;
+
+    p_vx = -p_size/2 + p_size*rand()/(float)RAND_MAX;
+    p_vy = -p_size/2 + p_size*rand()/(float)RAND_MAX;
     glutPostRedisplay();
     break;
   case 'g':
@@ -159,8 +184,15 @@ static void on_keyboard(unsigned char key, int x, int y){
 static void on_timer(int id){
   if(id!=TIMER_ID)
     return;
+
+  p_x +=p_vx;
+  if(p_x<=-(1-p_size/2) || p_x>=1-p_size/2)
+    p_vx*=-1;
+  p_y +=p_vy;
+  if(p_y<=-(1-p_size/2) || p_y>=1-p_size/2)
+    p_vy*=-1;
+
   k_x += k_vx;
- 
   k_y += k_vy;
   
   if(sqrt((k_x - llevi_x)*(k_x-llevi_x)+(k_y-llevi_y)*(k_y-llevi_y)) <rastojanje
@@ -173,6 +205,14 @@ static void on_timer(int id){
    || sqrt((k_x - ldonji_x)*(k_x-ldonji_x)+(k_y-ldonji_y)*(k_y-ldonji_y)) <rastojanje)
     k_vy = k_vy * -1;
 
+    if(sqrt((k_x - p_x)*(k_x-p_x)+(k_y-p_y)*(k_y-p_y)) <rastojanje){
+       k_vx *= -1;
+       k_vy *= -1;
+    }
+
+
+   
+    
   glutPostRedisplay();
   
   if(animation_ongoing){
