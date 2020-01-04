@@ -2,13 +2,13 @@
 #include<GL/glut.h>
 #include<time.h>
 #include<stdlib.h>
-
+#include<math.h>
 
 #define TIMER_ID 0
 #define TIMER_INTERVAL 20
 
 static float animation_ongoing = 0;
-static float rastojanje = 0.001;
+static float rastojanje = 0.2;
 const static float k_size = 0.05;
 static float k_x, k_y, k_vx, k_vy;
 const static float l_size = 0.1;
@@ -162,11 +162,15 @@ static void on_timer(int id){
   k_x += k_vx;
  
   k_y += k_vy;
-
-  if((abs(k_x-llevi_x)<rastojanje && abs(k_y - llevi_y)<rastojanje)||(abs(k_x-ldesni_x)<rastojanje && abs(k_y - ldesni_y)<rastojanje))
+  
+  if(sqrt((k_x - llevi_x)*(k_x-llevi_x)+(k_y-llevi_y)*(k_y-llevi_y)) <rastojanje
+   || sqrt((k_x - ldesni_x)*(k_x-ldesni_x)+(k_y-ldesni_y)*(k_y-ldesni_y)) <rastojanje)
+  
     k_vx = k_vx * -1;
 
-  if((abs(k_x-lgornji_x)<rastojanje && abs(k_y - lgornji_y)<rastojanje)||(abs(k_x-ldonji_x)<rastojanje && abs(k_y - ldonji_y)<rastojanje))
+  
+    if(sqrt((k_x - lgornji_x)*(k_x-lgornji_x)+(k_y-lgornji_y)*(k_y-lgornji_y)) <rastojanje
+   || sqrt((k_x - ldonji_x)*(k_x-ldonji_x)+(k_y-ldonji_y)*(k_y-ldonji_y)) <rastojanje)
     k_vy = k_vy * -1;
 
   glutPostRedisplay();
