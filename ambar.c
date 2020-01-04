@@ -1,8 +1,13 @@
 #include<stdio.h>
 #include<GL/glut.h>
+#include<time.h>
+#include<stdlib.h>
+
 
 #define TIMER_ID 0
 #define TIMER_INTERVAL 20
+
+static float animation_ongoing = 0;
 
 const static float k_size = 0.05;
 static float k_x, k_y, k_vx, k_vy;
@@ -27,6 +32,14 @@ int main(int argc, char ** argv){
   ldonji_y = llevi_x = -1;
   lgornji_x = ldonji_x = -0;
   llevi_y = ldesni_y = -0;
+
+  srand(time(NULL));
+  k_x = -(1-k_size/2) + (2-k_size)*rand()/(float) RAND_MAX;
+  k_y = -(1-k_size/2) + (2-k_size)*rand()/(float) RAND_MAX;
+
+  k_vx = -k_size/2 + k_size*rand()/(float)RAND_MAX;
+  k_vy = -k_size/2 + k_size*rand()/(float)RAND_MAX;
+  
   glClearColor(0.75, 0.4, 0.2, 0);
   glEnable(GL_DEPTH_TEST);
   
@@ -69,6 +82,16 @@ static void on_display(){
   glVertex3f(ldesni_x - l_size/2, ldesni_y - l_size/2, 0);
   glVertex3f(ldesni_x - l_size/2, ldesni_y + l_size/2, 0);
   glEnd();
+
+  glColor3f(0, 0, 1);
+  glBegin(GL_POLYGON);
+   glColor3f(0, 0, 1);
+  glVertex3f(k_x+k_size/2, k_y+k_size/2, 0);
+  glVertex3f(k_x+k_size/2, k_y-k_size/2, 0);
+  glVertex3f(k_x-k_size/2, k_y-k_size/2, 0);
+  glVertex3f(k_x-k_size/2, k_y+k_size/2, 0);
+  glEnd();
+  
   
   glutSwapBuffers();
 }
@@ -79,30 +102,69 @@ static void on_keyboard(unsigned char key, int x, int y){
   case 27:
     exit(0);
     break;
-  case '4':
-    lgornji_x-=l_size;
-    ldonji_x-=l_size;
+  case 'r':
+    animation_ongoing = 0;
+    srand(time(NULL));
+    k_x = -(1-k_size/2) + (2-k_size)*rand()/(float) RAND_MAX;
+    k_y = -(1-k_size/2) + (2-k_size)*rand()/(float) RAND_MAX;
+
+    k_vx = -k_size/2 + k_size*rand()/(float)RAND_MAX;
+    k_vy = -k_size/2 + k_size*rand()/(float)RAND_MAX;
+
     glutPostRedisplay();
+    break;
+  case 'g':
+  case 'G':
+    if(!animation_ongoing){
+      animation_ongoing = 1;
+      glutTimerFunc(TIMER_INTERVAL, on_timer, TIMER_ID);
+    }
+    break;
+  case 's':
+  case 'S':
+    animation_ongoing = 0;
+    break;
+  case '4':
+    if(lgornji_x > -1){
+      lgornji_x-=l_size;
+      ldonji_x-=l_size;
+      glutPostRedisplay();
+    }
     break;
   case '6':
-    lgornji_x+=l_size;
-    ldonji_x+=l_size;
-    glutPostRedisplay();
+    if(lgornji_x <1){
+      lgornji_x+=l_size;
+      ldonji_x+=l_size;
+      glutPostRedisplay();
+    }
     break;
   case '8':
-    llevi_y+=l_size;
-    ldesni_y+=l_size;
-    glutPostRedisplay();
+    if(llevi_y<1){
+      llevi_y+=l_size;
+      ldesni_y+=l_size;
+      glutPostRedisplay();
+    }
     break;
   case '2':
-    llevi_y-=l_size;
-    ldesni_y-=l_size;
-    glutPostRedisplay();
+    if(llevi_y>-1){
+      llevi_y-=l_size;
+      ldesni_y-=l_size;
+      glutPostRedisplay();
+    }
     break;
   }
   
 }
 
 static void on_timer(int id){
-
+  if(id!=TIMER_ID)
+    return;
+  k_x += k_vx;
+  k_y += k_vy;
+  glutPostRedisplay();
+  
+  if(animation_ongoing){
+    glutTimerFunc(TIMER_INTERVAL, on_timer, TIMER_ID);
+  }
+  
 }
