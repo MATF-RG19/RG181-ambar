@@ -7,15 +7,16 @@
 #define TIMER_ID 0
 #define TIMER_INTERVAL 20
 
+static float velicina_ambara = 0.3;
 static float animation_ongoing = 0;
-static float rastojanje = 0.2;
+static float rastojanje = 0.4;
 const static float k_size = 0.05;
 static float k_x, k_y, k_vx, k_vy;
 const static float l_size = 0.1;
 static float lgornji_x, lgornji_y, ldonji_x, ldonji_y, ldesni_x, ldesni_y,llevi_x, llevi_y;
 const static float p_size = 0.025;
 static float p_x, p_y, p_vx, p_vy;
-
+static float drvo1_x, drvo1_y;
 static void on_display();
 static void on_keyboard(unsigned char key, int x, int y);
 static void on_timer(int id);
@@ -35,11 +36,11 @@ int main(int argc, char ** argv){
   llevi_y = ldesni_y = -0;
 
   srand(time(NULL));
-  k_x = -(1-k_size/2) + (2-k_size)*rand()/(float) RAND_MAX;
-  k_y = -(1-k_size/2) + (2-k_size)*rand()/(float) RAND_MAX;
+  k_x = -(0.5-k_size/2) + (1-k_size)*rand()/(float) RAND_MAX;
+  k_y = -(0.5-k_size/2) + (1-k_size)*rand()/(float) RAND_MAX;
 
-  k_vx = -k_size/2 + k_size*rand()/(float)RAND_MAX;
-  k_vy = -k_size/2 + k_size*rand()/(float)RAND_MAX;
+  k_vx =  k_size*0.01;
+  k_vy =  k_size*0.01;
 
 
   srand(time(NULL));
@@ -48,6 +49,10 @@ int main(int argc, char ** argv){
 
   p_vx = -p_size/2 + p_size*rand()/(float)RAND_MAX;
   p_vy = -p_size/2 + p_size*rand()/(float)RAND_MAX;
+
+  drvo1_x = -(0.5-k_size/2) + (1-k_size)*rand()/(float) RAND_MAX;
+  drvo1_y = -(0.5-k_size/2) + (1-k_size)*rand()/(float) RAND_MAX;
+
   
   glClearColor(0.75, 0.4, 0.2, 0);
   glEnable(GL_DEPTH_TEST);
@@ -110,7 +115,13 @@ static void on_display(){
   glVertex3f(p_x-p_size/2, p_y+p_size/2, 0);
   glEnd();
  
-  
+
+  glutWireCube(velicina_ambara);
+  glPushMatrix();
+   glColor3f( 0, 1, 0);
+   glTranslatef(drvo1_x, drvo1_y, 0);
+   glutSolidSphere(0.025, 20, 20);
+  glPopMatrix();
   glutSwapBuffers();
 }
 
@@ -123,11 +134,11 @@ static void on_keyboard(unsigned char key, int x, int y){
   case 'r':
     animation_ongoing = 0;
     srand(time(NULL));
-    k_x = -(1-k_size/2) + (2-k_size)*rand()/(float) RAND_MAX;
-    k_y = -(1-k_size/2) + (2-k_size)*rand()/(float) RAND_MAX;
+    k_x = -(0.5-k_size/2) + (1-k_size)*rand()/(float) RAND_MAX;
+    k_y = -(0.5-k_size/2) + (1-k_size)*rand()/(float) RAND_MAX;
 
-    k_vx = -k_size/2 + k_size*rand()/(float)RAND_MAX;
-    k_vy = -k_size/2 + k_size*rand()/(float)RAND_MAX;
+    k_vx = k_size*0.01;
+    k_vy = k_size*0.01;
 
 
     srand(time(NULL));
@@ -148,6 +159,16 @@ static void on_keyboard(unsigned char key, int x, int y){
   case 's':
   case 'S':
     animation_ongoing = 0;
+    break;
+  case 'f':
+  case 'F':
+    k_vx*=2;
+    k_vy*=2;
+    break;
+  case 'd':
+  case 'D':
+    k_vx/=2;
+    k_vy/=2;
     break;
   case '4':
     if(lgornji_x > -1){
@@ -210,8 +231,16 @@ static void on_timer(int id){
        k_vy *= -1;
     }
 
+    
+    if(sqrt((k_x)*(k_x)+(k_y)*(k_y)) <velicina_ambara/2){
+      k_x = 0;
+      k_y = 0;
+    }
 
+
+    
    
+    
     
   glutPostRedisplay();
   
