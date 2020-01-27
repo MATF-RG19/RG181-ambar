@@ -1,0 +1,5 @@
+prevodjenje:
+
+gcc ambar.c image.c  -lglut -lGLU -lGL -lm
+
+pokretanje ./a.out

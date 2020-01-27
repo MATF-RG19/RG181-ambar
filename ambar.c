@@ -3,9 +3,16 @@
 #include<time.h>
 #include<stdlib.h>
 #include<math.h>
+#include"image.h" //pozajmljen kod zaglavlja sa vezbi
 
+#define FILENAME1 "grass.bmp"
 #define TIMER_ID 0
 #define TIMER_INTERVAL 20
+
+/*identifikatori tekstura*/
+static GLuint names[10];
+
+static int window_width, window_height;
 
 static float velicina_ambara = 0.3;
 static float animation_ongoing = 0;
@@ -20,6 +27,8 @@ static float drvo1_x, drvo1_y;
 static void on_display();
 static void on_keyboard(unsigned char key, int x, int y);
 static void on_timer(int id);
+static void on_reshape(int width, int height);
+static void initialize(void);
 int main(int argc, char ** argv){
   glutInit(&argc, argv);
   glutInitDisplayMode(GLUT_RGB|GLUT_DOUBLE|GLUT_DEPTH);
@@ -29,7 +38,8 @@ int main(int argc, char ** argv){
 
   glutDisplayFunc(on_display);
   glutKeyboardFunc(on_keyboard);
-
+  glutReshapeFunc(on_reshape);
+  
   lgornji_y=ldesni_x =1;
   ldonji_y = llevi_x = -1;
   lgornji_x = ldonji_x = -0;
@@ -56,11 +66,91 @@ int main(int argc, char ** argv){
   
   glClearColor(0.75, 0.4, 0.2, 0);
   glEnable(GL_DEPTH_TEST);
+
+  initialize();
   
   glutMainLoop();
   return 0;
 
 }
+
+static void on_reshape(int width, int height){
+
+  window_width = width;
+  window_height= height;
+
+  //  glViewport(0, 0, width, height);
+  // glMatrixMode(GL_PROJECTION);
+  // glLoadIdentity();
+  // gluPerspective(60, (float)width/height, 1, 15);
+}
+/*POCETAK POZAJMLJENOG KODA SA VEZBI*/
+static void initialize(void)
+{
+    /* Objekat koji predstavlja teskturu ucitanu iz fajla. */
+    Image * image;
+
+
+    /* Ukljucuje se testiranje z-koordinate piksela. */
+    glEnable(GL_DEPTH_TEST);
+
+    /* Ukljucuju se teksture. */
+    glEnable(GL_TEXTURE_2D);
+
+    glTexEnvf(GL_TEXTURE_ENV,
+              GL_TEXTURE_ENV_MODE,
+              GL_REPLACE);
+
+    /*
+     * Inicijalizuje se objekat koji ce sadrzati teksture ucitane iz
+     * fajla.
+     */
+    image = image_init(0, 0);
+
+    /* Kreira se prva tekstura. */
+    //  image_read(image, FILENAME0);
+
+    /* Generisu se identifikatori tekstura. */
+    glGenTextures(10, names);
+
+    /* glBindTexture(GL_TEXTURE_2D, names[0]);
+    glTexParameteri(GL_TEXTURE_2D,
+                    GL_TEXTURE_WRAP_S, GL_REPEAT);
+    glTexParameteri(GL_TEXTURE_2D,
+                    GL_TEXTURE_WRAP_T, GL_REPEAT);
+    glTexParameteri(GL_TEXTURE_2D,
+                    GL_TEXTURE_MAG_FILTER, GL_REPEAT);
+    glTexParameteri(GL_TEXTURE_2D,
+                    GL_TEXTURE_MIN_FILTER, GL_REPEAT);
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB,
+                 image->width, image->height, 0,
+               GL_RGB, GL_UNSIGNED_BYTE, image->pixels);
+    */
+    /* Kreira se druga tekstura. */
+    image_read(image, FILENAME1);
+
+    glBindTexture(GL_TEXTURE_2D, names[1]);
+    glTexParameteri(GL_TEXTURE_2D,
+                    GL_TEXTURE_WRAP_S, GL_REPEAT);
+    glTexParameteri(GL_TEXTURE_2D,
+                    GL_TEXTURE_WRAP_T, GL_REPEAT);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB,
+                 image->width, image->height, 0,
+                 GL_RGB, GL_UNSIGNED_BYTE, image->pixels);
+
+    /* Iskljucujemo aktivnu teksturu */
+    glBindTexture(GL_TEXTURE_2D, 0);
+
+    /* Unistava se objekat za citanje tekstura iz fajla. */
+    image_done(image);
+
+ 
+}
+
+/*KRAJ POZAJMLJENOG KODA*/
+
 
 static void on_display(){
   glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
@@ -122,6 +212,32 @@ static void on_display(){
    glTranslatef(drvo1_x, drvo1_y, 0);
    glutSolidSphere(0.025, 20, 20);
   glPopMatrix();
+
+
+ glBindTexture(GL_TEXTURE_2D, names[1]);
+    glBegin(GL_QUADS);
+        glNormal3f(0, 0, 1);
+
+	glTexCoord2f(1, 1);
+        glVertex3f(1, 1, 0);
+
+	// glTexCoord2f(12, 0);
+	 glTexCoord2f(0, 1);
+        glVertex3f(-1, 1, 0);
+
+	// glTexCoord2f(12, 6);
+         glTexCoord2f(0, 0);	
+        glVertex3f(-1, -1, 0);
+
+	// glTexCoord2f(0, 6);
+	 glTexCoord2f(1, 0);
+        glVertex3f(1, -1, 0);
+    glEnd();
+
+    /* Iskljucujemo aktivnu teksturu */
+    glBindTexture(GL_TEXTURE_2D, 0);
+
+  
   glutSwapBuffers();
 }
 
@@ -129,6 +245,7 @@ static void on_display(){
 static void on_keyboard(unsigned char key, int x, int y){
   switch(key){
   case 27:
+    glDeleteTextures(10, names);
     exit(0);
     break;
   case 'r':
