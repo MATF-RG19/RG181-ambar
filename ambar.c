@@ -8,7 +8,7 @@
 #define FILENAME3 "pas.bmp"
 #define FILENAME2 "ambar.bmp"
 #define FILENAME1 "grass.bmp"
-#define FILENAME4 "pas2.bmp"
+#define FILENAME4 "horse.bmp"
 #define FILENAME5 "pas2.bmp"
 #define TIMER_ID 0
 #define TIMER_INTERVAL 20
@@ -23,7 +23,7 @@ static float animation_ongoing = 0;
 static float rastojanje = 0.4;
 const static float k_size = 0.2;
 static float k_x, k_y, k_vx, k_vy;
-const static float l_size = 0.3;
+const static float l_size = 0.15;
 static float lgornji_x, lgornji_y, ldonji_x, ldonji_y, ldesni_x, ldesni_y,llevi_x, llevi_y;
 const static float p_size = 0.1;
 static float p_x, p_y, p_vx, p_vy;
@@ -340,13 +340,13 @@ static void on_display(){
     glBegin(GL_QUADS);
         glNormal3f(0, 0, 1);
 	glTexCoord2f(1, 1);
-	glVertex3f(lgornji_x+l_size/2, lgornji_y+l_size/2, -0.09);
+	glVertex3f(lgornji_x+l_size/2, lgornji_y, -0.09);
 	 glTexCoord2f(0, 1);
-	 glVertex3f(lgornji_x-l_size/2, lgornji_y+l_size/2, -0.09); 
+	 glVertex3f(lgornji_x-l_size/2, lgornji_y, -0.09); 
          glTexCoord2f(0, 0);	
-	 glVertex3f(lgornji_x-l_size/2, lgornji_y-l_size/2, -0.09);
+	 glVertex3f(lgornji_x-l_size/2, lgornji_y-l_size, -0.09);
 	 glTexCoord2f(1, 0);
-        glVertex3f(lgornji_x+l_size/2, lgornji_y-l_size/2, -0.09);
+        glVertex3f(lgornji_x+l_size/2, lgornji_y-l_size, -0.09);
     glEnd();
 
             /*tekstura za donjeg cuvara */
@@ -354,13 +354,13 @@ static void on_display(){
     glBegin(GL_QUADS);
         glNormal3f(0, 0, 1);
 	glTexCoord2f(1, 1);
-	glVertex3f(ldonji_x+l_size/2, ldonji_y+l_size/2, -0.09);
+	glVertex3f(ldonji_x+l_size/2, ldonji_y+l_size, -0.09);
 	 glTexCoord2f(0, 1);
-	 glVertex3f(ldonji_x-l_size/2, ldonji_y+l_size/2, -0.09); 
+	 glVertex3f(ldonji_x-l_size/2, ldonji_y+l_size, -0.09); 
          glTexCoord2f(0, 0);	
-	 glVertex3f(ldonji_x-l_size/2, ldonji_y-l_size/2, -0.09);
+	 glVertex3f(ldonji_x-l_size/2, ldonji_y, -0.09);
 	 glTexCoord2f(1, 0);
-        glVertex3f(ldonji_x+l_size/2, ldonji_y-l_size/2, -0.09);
+        glVertex3f(ldonji_x+l_size/2, ldonji_y, -0.09);
     glEnd();
 
     /*tekstura za levog cuvara*/
@@ -369,13 +369,13 @@ static void on_display(){
     glBegin(GL_QUADS);
         glNormal3f(0, 0, 1);
 	glTexCoord2f(1, 1);
-	glVertex3f(llevi_x+l_size/2, llevi_y+l_size/2, -0.09);
+	glVertex3f(llevi_x+l_size, llevi_y+l_size/2, -0.09);
 	 glTexCoord2f(0, 1);
-	 glVertex3f(llevi_x-l_size/2, llevi_y+l_size/2, -0.09); 
+	 glVertex3f(llevi_x, llevi_y+l_size/2, -0.09); 
          glTexCoord2f(0, 0);	
-	 glVertex3f(llevi_x-l_size/2, llevi_y-l_size/2, -0.09);
+	 glVertex3f(llevi_x, llevi_y-l_size/2, -0.09);
 	 glTexCoord2f(1, 0);
-        glVertex3f(llevi_x+l_size/2, llevi_y-l_size/2, -0.09);
+        glVertex3f(llevi_x+l_size, llevi_y-l_size/2, -0.09);
     glEnd();
 
        /*tekstura za desnog cuvara*/
@@ -384,13 +384,13 @@ static void on_display(){
     glBegin(GL_QUADS);
         glNormal3f(0, 0, 1);
 	glTexCoord2f(1, 1);
-	glVertex3f(ldesni_x+l_size/2, ldesni_y+l_size/2, -0.09);
+	glVertex3f(ldesni_x, ldesni_y+l_size/2, -0.09);
 	 glTexCoord2f(0, 1);
-	 glVertex3f(ldesni_x-l_size/2, ldesni_y+l_size/2, -0.09); 
+	 glVertex3f(ldesni_x-l_size, ldesni_y+l_size/2, -0.09); 
          glTexCoord2f(0, 0);	
-	 glVertex3f(ldesni_x-l_size/2, ldesni_y-l_size/2, -0.09);
+	 glVertex3f(ldesni_x-l_size, ldesni_y-l_size/2, -0.09);
 	 glTexCoord2f(1, 0);
-        glVertex3f(ldesni_x+l_size/2, ldesni_y-l_size/2, -0.09);
+        glVertex3f(ldesni_x, ldesni_y-l_size/2, -0.09);
     glEnd();
     /* Iskljucujemo aktivnu teksturu */
     glBindTexture(GL_TEXTURE_2D, 0);
@@ -510,12 +510,7 @@ static void on_timer(int id){
     if(sqrt((k_x)*(k_x)+(k_y)*(k_y)) <velicina_ambara/2){
       k_x = 0;
       k_y = 0;
-    }
-
-
-    
-   
-    
+    }    
     
   glutPostRedisplay();
   
