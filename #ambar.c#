@@ -249,7 +249,7 @@ static void on_display(){
 
   glColor3f(0, 0, 1);
   glBegin(GL_POLYGON);
-   glColor3f(0, 0, 1);
+  glColor3f(0, 0, 1);
   glVertex3f(k_x+k_size/2, k_y+k_size/2, 0);
   glVertex3f(k_x+k_size/2, k_y-k_size/2, 0);
   glVertex3f(k_x-k_size/2, k_y-k_size/2, 0);
