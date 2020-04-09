@@ -4,17 +4,11 @@
 #include<stdlib.h>
 #include<math.h>
 #include"image.h" //pozajmljen kod zaglavlja sa vezbi
+#include "initialize.h"
 
-#define FILENAME3 "pas.bmp"
-#define FILENAME2 "ambar.bmp"
-#define FILENAME1 "grass.bmp"
-#define FILENAME4 "horse.bmp"
-#define FILENAME5 "pas2.bmp"
 #define TIMER_ID 0
 #define TIMER_INTERVAL 20
 
-/*identifikatori tekstura*/
-static GLuint names[10];
 
 static int window_width, window_height;
 
@@ -32,7 +26,8 @@ static void on_display();
 static void on_keyboard(unsigned char key, int x, int y);
 static void on_timer(int id);
 static void on_reshape(int width, int height);
-static void initialize(void);
+static void draw_axes(int duzina);
+
 int main(int argc, char ** argv){
   glutInit(&argc, argv);
   glutInitDisplayMode(GLUT_RGB|GLUT_DOUBLE|GLUT_DEPTH);
@@ -73,131 +68,48 @@ int main(int argc, char ** argv){
   glClearColor(0.75, 0.4, 0.2, 0);
   glEnable(GL_DEPTH_TEST);
   /*uglavnom mi sluzi za teksture */
-  initialize();
+  //   initialize();
   
   glutMainLoop();
   return 0;
+}
+
+static void draw_axes(int duzina){
+
+  glDisable(GL_LIGHTING);
+  
+  glLineWidth(5);
+  glBegin(GL_LINES);
+  glColor3f(1, 0, 0);
+  glVertex3f(0, 0, 0.2);
+  glVertex3f(duzina, 0, 0);
+
+  glColor3f(0, 1, 0);
+  glVertex3f(0, 0, 0.2);
+  glVertex3f(0, duzina, 0);
+
+  glColor3f(0, 0, 1);
+  glVertex3f(0, 0, 0);
+  glVertex3f(0, 0, duzina);
+  glEnd();
+
+  glEnable(GL_LIGHTING);
 }
 
 static void on_reshape(int width, int height){
   
    window_width = width;
    window_height= height;
-   // glViewport(0, 0, width, height);
+   //  glViewport(0, 0, width, height);
    // glMatrixMode(GL_PROJECTION);
    // glLoadIdentity();
    // gluPerspective(60, (float)width/height, 1, 10);
 }
-/*POCETAK POZAJMLJENOG KODA SA VEZBI*/
-static void initialize(void)
-{
-    /* Objekat koji predstavlja teskturu ucitanu iz fajla. */
-    Image * image;
-    
-    /* Ukljucuje se testiranje z-koordinate piksela. */
-    //    glEnable(GL_DEPTH_TEST);
-
-    /* Ukljucuju se teksture. */
-    glEnable(GL_TEXTURE_2D);
-
-    glTexEnvf(GL_TEXTURE_ENV,
-              GL_TEXTURE_ENV_MODE,
-              GL_REPLACE);
-    /*
-     * Inicijalizuje se objekat koji ce sadrzati teksture ucitane iz
-     * fajla.
-     */
-    image = image_init(0, 0);
-
-    /* Generisu se identifikatori tekstura. */
-    glGenTextures(10, names);
-    
-    /* Kreira se trava */
-    image_read(image, FILENAME1);
-
-    glBindTexture(GL_TEXTURE_2D, names[1]);
-    glTexParameteri(GL_TEXTURE_2D,
-                    GL_TEXTURE_WRAP_S, GL_REPEAT);
-    glTexParameteri(GL_TEXTURE_2D,
-                    GL_TEXTURE_WRAP_T, GL_REPEAT);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB,
-                 image->width, image->height, 0,
-                 GL_RGB, GL_UNSIGNED_BYTE, image->pixels);
-
-    /*kreira se ambar*/
-    image_read(image, FILENAME2);
-    
-    glBindTexture(GL_TEXTURE_2D, names[2]);
-    glTexParameteri(GL_TEXTURE_2D,
-                    GL_TEXTURE_WRAP_S, GL_CLAMP);
-    glTexParameteri(GL_TEXTURE_2D,
-                    GL_TEXTURE_WRAP_T, GL_CLAMP);
-    glTexParameteri(GL_TEXTURE_2D,
-                    GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-    glTexParameteri(GL_TEXTURE_2D,
-                    GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB,
-                 image->width, image->height, 0,
-               GL_RGB, GL_UNSIGNED_BYTE, image->pixels);
-
-    /*kreira se pas*/
-    image_read(image, FILENAME3);
-    glBindTexture(GL_TEXTURE_2D, names[3]);
-    glTexParameteri(GL_TEXTURE_2D,
-                    GL_TEXTURE_WRAP_S, GL_CLAMP);
-    glTexParameteri(GL_TEXTURE_2D,
-                    GL_TEXTURE_WRAP_T, GL_CLAMP);
-    glTexParameteri(GL_TEXTURE_2D,
-                    GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-    glTexParameteri(GL_TEXTURE_2D,
-                    GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB,
-                 image->width, image->height, 0,
-               GL_RGB, GL_UNSIGNED_BYTE, image->pixels);
-
-    /*kreira se konj*/
-    image_read(image, FILENAME4);
-    glBindTexture(GL_TEXTURE_2D, names[4]);
-    glTexParameteri(GL_TEXTURE_2D,
-                    GL_TEXTURE_WRAP_S, GL_CLAMP);
-    glTexParameteri(GL_TEXTURE_2D,
-                    GL_TEXTURE_WRAP_T, GL_CLAMP);
-    glTexParameteri(GL_TEXTURE_2D,
-                    GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-    glTexParameteri(GL_TEXTURE_2D,
-                    GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB,
-                 image->width, image->height, 0,
-		 GL_RGB, GL_UNSIGNED_BYTE, image->pixels);
-      
-      /*kreira se covek*/
-    image_read(image, FILENAME5);
-    glBindTexture(GL_TEXTURE_2D, names[5]);
-    glTexParameteri(GL_TEXTURE_2D,
-                    GL_TEXTURE_WRAP_S, GL_CLAMP);
-    glTexParameteri(GL_TEXTURE_2D,
-                    GL_TEXTURE_WRAP_T, GL_CLAMP);
-    glTexParameteri(GL_TEXTURE_2D,
-                    GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-    glTexParameteri(GL_TEXTURE_2D,
-                    GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB,
-                 image->width, image->height, 0,
-		 GL_RGB, GL_UNSIGNED_BYTE, image->pixels);
-      
-    /* Iskljucujemo aktivnu teksturu */
-    glBindTexture(GL_TEXTURE_2D, 0);
-
-    /* Unistava se objekat za citanje tekstura iz fajla. */
-    image_done(image);
-}
-
-/*KRAJ POZAJMLJENOG KODA*/
 
 static void on_display(){
   glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
+
+
   
   glVertex3f(1, 0, 0);
   glPushMatrix();
@@ -240,19 +152,20 @@ static void on_display(){
   glPopMatrix();
  
   /*tekstura za travu*/
- glBindTexture(GL_TEXTURE_2D, names[1]);
-    glBegin(GL_QUADS);
-        glNormal3f(0, 0, 1);
- 	glTexCoord2f(1, 1);
-        glVertex3f(1, 1, 0);
-        glTexCoord2f(0, 1);
-        glVertex3f(-1, 1, 0);
- 	glTexCoord2f(0, 0);
-        glVertex3f(-1, -1, 0);
- 	glTexCoord2f(1, 0);
-        glVertex3f(1, -1, 0);
-    glEnd();
+ /* glBindTexture(GL_TEXTURE_2D, names[1]); */
+ /*    glBegin(GL_QUADS); */
+ /*        glNormal3f(0, 0, 1); */
+ /* 	glTexCoord2f(1, 1); */
+ /*        glVertex3f(1, 1, 0); */
+ /*        glTexCoord2f(0, 1); */
+ /*        glVertex3f(-1, 1, 0); */
+ /* 	glTexCoord2f(0, 0); */
+ /*        glVertex3f(-1, -1, 0); */
+ /* 	glTexCoord2f(1, 0); */
+ /*        glVertex3f(1, -1, 0); */
+ /*    glEnd(); */
 
+    draw_axes(15);
      //saljemo novu sliku na ekran  
   glutSwapBuffers();
 }
@@ -360,27 +273,27 @@ static void on_timer(int id){
   //ako je rastojanje konja od pasa sa strane ili onog u sredini manje od zadatog
   //menjamo smer kretanja
   if(sqrt((k_x - llevi_x)*(k_x-llevi_x)+(k_y-llevi_y)*(k_y-llevi_y)) <rastojanje
-   || sqrt((k_x - ldesni_x)*(k_x-ldesni_x)+(k_y-ldesni_y)*(k_y-ldesni_y)) <rastojanje)
-  
-    k_vx = k_vx * -1;
+     || sqrt((k_x - ldesni_x)*(k_x-ldesni_x)+(k_y-ldesni_y)*(k_y-ldesni_y)) <rastojanje)
+           k_vx = k_vx * -1;
 
     if(sqrt((k_x - lgornji_x)*(k_x-lgornji_x)+(k_y-lgornji_y)*(k_y-lgornji_y)) <rastojanje
-   || sqrt((k_x - ldonji_x)*(k_x-ldonji_x)+(k_y-ldonji_y)*(k_y-ldonji_y)) <rastojanje)
-    k_vy = k_vy * -1;
+      || sqrt((k_x - ldonji_x)*(k_x-ldonji_x)+(k_y-ldonji_y)*(k_y-ldonji_y)) <rastojanje)
+           k_vy = k_vy * -1;
 
     if(sqrt((k_x - p_x)*(k_x-p_x)+(k_y-p_y)*(k_y-p_y)) <rastojanje){
-       k_vx *= -1;
-       k_vy *= -1;
-    }
+           k_vx *= -1;
+           k_vy *= -1;
+      }
     //ako je konj usao u ambar, smiruje se
     if(sqrt((k_x)*(k_x)+(k_y)*(k_y)) <velicina_ambara/2){
-      k_x = 0;
-      k_y = 0;
-    }    
+           k_x = 0;
+           k_y = 0;
+      }    
     //reiscrtavamo  
-  glutPostRedisplay();
-    //pozivamo sledeci tajmer
-  if(animation_ongoing){
+     glutPostRedisplay();
+
+     //pozivamo sledeci tajmer
+     if(animation_ongoing){
     glutTimerFunc(TIMER_INTERVAL, on_timer, TIMER_ID);
   }
 }
