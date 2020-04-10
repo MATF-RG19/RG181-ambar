@@ -100,16 +100,21 @@ static void on_reshape(int width, int height){
   
    window_width = width;
    window_height= height;
-   //  glViewport(0, 0, width, height);
-   // glMatrixMode(GL_PROJECTION);
-   // glLoadIdentity();
-   // gluPerspective(60, (float)width/height, 1, 10);
+   glViewport(0, 0, width, height);
+   glMatrixMode(GL_PROJECTION);
+   glLoadIdentity();
+   gluPerspective(60, (float)width/(float)height, 1, 5);
 }
 
 static void on_display(){
   glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
 
-
+  glMatrixMode(GL_MODELVIEW);
+  glLoadIdentity();
+  gluLookAt(0, 0, 1,  //0, -1, 1 vidim donju liniju i plavu liniiju
+	     k_x, k_y, 0,
+	     0, 1, 0 );
+  
   
   glVertex3f(1, 0, 0);
   glPushMatrix();
@@ -143,13 +148,14 @@ static void on_display(){
   glTranslatef(p_x, p_y, 0);
   glutWireSphere(p_size/2, 10, 10);
   glPopMatrix();
-
-  glutWireCube(velicina_ambara);
-  glPushMatrix();
-   glColor3f( 0, 1, 0);
-   glTranslatef(drvo1_x, drvo1_y, 0);
-   glutSolidSphere(0.025, 20, 20);
-  glPopMatrix();
+  
+  //Drvo
+  /* glutWireCube(velicina_ambara); */
+  /* glPushMatrix(); */
+  /*  glColor3f( 0, 1, 0); */
+  /*  glTranslatef(drvo1_x, drvo1_y, 0); */
+  /*  glutSolidSphere(0.025, 20, 20); */
+  /* glPopMatrix(); */
  
   /*tekstura za travu*/
  /* glBindTexture(GL_TEXTURE_2D, names[1]); */
@@ -165,7 +171,7 @@ static void on_display(){
  /*        glVertex3f(1, -1, 0); */
  /*    glEnd(); */
 
-    draw_axes(15);
+    draw_axes(25);
      //saljemo novu sliku na ekran  
   glutSwapBuffers();
 }
