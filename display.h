@@ -1,14 +1,14 @@
 
 static int window_width, window_height;
-
-static float velicina_ambara = 0.3;
+static float polje = 10;
+static float velicina_ambara = 1;
 static float animation_ongoing = 0;
-static float rastojanje = 0.4;
-const static float k_size = 0.2;
+static float rastojanje = 0.5;
+const static float k_size = 1;
 static float k_x, k_y, k_vx, k_vy;
-const static float l_size = 0.15;
+const static float l_size = 0.5;
 static float lgornji_x, lgornji_y, ldonji_x, ldonji_y, ldesni_x, ldesni_y,llevi_x, llevi_y;
-const static float p_size = 0.1;
+const static float p_size = 0.3;
 static float p_x, p_y, p_vx, p_vy;
 static float drvo1_x, drvo1_y;
 static void draw_axes(int n);
@@ -18,37 +18,37 @@ static void on_display(){
 
   glMatrixMode(GL_MODELVIEW);
   glLoadIdentity();
-  gluLookAt(0, 0, 1,  //0, -1, 1 vidim donju liniju i plavu liniiju
+  gluLookAt(k_x, k_y, 5,  //0, -1, 1 vidim donju liniju i plavu liniiju
 	     k_x, k_y, 0,
 	     0, 1, 0 );
   
   
-  glVertex3f(1, 0, 0);
+  //  glVertex3f(1, 0, 0);
   glPushMatrix();
-  glTranslatef(lgornji_x, 1, 0);
+  glTranslatef(lgornji_x, polje, 0);
   glutWireSphere(l_size/2, 10, 10);
   glPopMatrix();
 
   glPushMatrix();
-  glTranslatef(ldonji_x, -1, 0);
+  glTranslatef(ldonji_x, -polje, 0);
   glutWireSphere(l_size/2, 10, 10);
   glPopMatrix();
 
   glColor3f(0,1, 0);
 
   glPushMatrix();
-  glTranslatef(-1, llevi_y, 0);
+  glTranslatef(-polje, llevi_y, 0);
   glutWireSphere(l_size/2, 10, 10);
   glPopMatrix();
 
   glPushMatrix();
-  glTranslatef(1, ldesni_y, 0);
+  glTranslatef(polje, ldesni_y, 0);
   glutWireSphere(l_size/2, 10, 10);
   glPopMatrix();
   
   glPushMatrix();
   glTranslatef(k_x, k_y, 0);
-  glutWireSphere(k_size/2, 10, 10);
+  glutWireTeapot(k_size/2);
   glPopMatrix();
 
   glPushMatrix();
@@ -56,6 +56,8 @@ static void on_display(){
   glutWireSphere(p_size/2, 10, 10);
   glPopMatrix();
   
+  glutWireCube(velicina_ambara);
+
   //Drvo
   /* glutWireCube(velicina_ambara); */
   /* glPushMatrix(); */
@@ -69,13 +71,13 @@ static void on_display(){
  /*    glBegin(GL_QUADS); */
  /*        glNormal3f(0, 0, 1); */
  /* 	glTexCoord2f(1, 1); */
- /*        glVertex3f(1, 1, 0); */
+ /*        glVertex3f(polje, polje, 0); */
  /*        glTexCoord2f(0, 1); */
- /*        glVertex3f(-1, 1, 0); */
+ /*        glVertex3f(-polje, polje, 0); */
  /* 	glTexCoord2f(0, 0); */
- /*        glVertex3f(-1, -1, 0); */
+ /*        glVertex3f(-polje, -polje, 0); */
  /* 	glTexCoord2f(1, 0); */
- /*        glVertex3f(1, -1, 0); */
+ /*        glVertex3f(polje, -polje, 0); */
  /*    glEnd(); */
 
     draw_axes(25);

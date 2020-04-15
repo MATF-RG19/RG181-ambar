@@ -14,15 +14,15 @@ static void on_keyboard(unsigned char key, int x, int y){
     //restartujemo igru i sve parametre postavljamo na pocetne
     animation_ongoing = 0;
     srand(time(NULL));
-    k_x = -(0.5-k_size/2) + (1-k_size)*rand()/(float) RAND_MAX;
-    k_y = -(0.5-k_size/2) + (1-k_size)*rand()/(float) RAND_MAX;
+    k_x = -(polje/2-k_size/2) + (polje-k_size)*rand()/(float) RAND_MAX;
+    k_y = -(polje/2-k_size/2) + (polje-k_size)*rand()/(float) RAND_MAX;
 
     k_vx = k_size*0.01;
     k_vy = k_size*0.01;
 
     srand(time(NULL));
-    p_x = -(1-p_size/2) + (2-p_size)*rand()/(float) RAND_MAX;
-    p_y = -(1-p_size/2) + (2-p_size)*rand()/(float) RAND_MAX;
+    p_x = -(polje-p_size/2) + (2*polje-p_size)*rand()/(float) RAND_MAX;
+    p_y = -(polje-p_size/2) + (2*polje-p_size)*rand()/(float) RAND_MAX;
 
     p_vx = -p_size/2 + p_size*rand()/(float)RAND_MAX;
     p_vy = -p_size/2 + p_size*rand()/(float)RAND_MAX;
@@ -56,7 +56,7 @@ static void on_keyboard(unsigned char key, int x, int y){
     break;
     //pomeramo levo gornjeg i donjeg cuvara ako imamo gde
   case '4':
-    if(lgornji_x > -1){
+    if(lgornji_x > -polje){
       lgornji_x-=l_size;
       ldonji_x-=l_size;
       glutPostRedisplay();
@@ -64,7 +64,7 @@ static void on_keyboard(unsigned char key, int x, int y){
     break;
     //pomeramo desno gornjeg i donjeg cuvara ako ima mesta desno
   case '6':
-    if(lgornji_x <1){
+    if(lgornji_x <polje){
       lgornji_x+=l_size;
       ldonji_x+=l_size;
       glutPostRedisplay();
@@ -72,7 +72,7 @@ static void on_keyboard(unsigned char key, int x, int y){
     break;
     //levi i desni cuvar idu gore ako vec nisu na vrhu
   case '8':
-    if(llevi_y<1){
+    if(llevi_y<polje){
       llevi_y+=l_size;
       ldesni_y+=l_size;
       glutPostRedisplay();
@@ -80,7 +80,7 @@ static void on_keyboard(unsigned char key, int x, int y){
     break;
     //levi i desni cuvar idu dole ako nisu na dnu
   case '2':
-    if(llevi_y>-1){
+    if(llevi_y>-polje){
       llevi_y-=l_size;
       ldesni_y-=l_size;
       glutPostRedisplay();

@@ -24,35 +24,36 @@ int main(int argc, char ** argv){
   glutReshapeFunc(on_reshape);
   
   /*pocetne vrednosti polozaja lenjira (ljudi) */
-  lgornji_y=ldesni_x =1;
-  ldonji_y = llevi_x = -1;
+  lgornji_y=ldesni_x =polje;
+  ldonji_y = llevi_x = -polje;
   lgornji_x = ldonji_x = -0;
   llevi_y = ldesni_y = -0;
 
   /* konj se postavlja na slucajnu poziciju na pocetku, ali u centralni deo ekrana*/
   srand(time(NULL));
-  k_x = -(0.5-k_size/2) + (1-k_size)*rand()/(float) RAND_MAX;
-  k_y = -(0.5-k_size/2) + (1-k_size)*rand()/(float) RAND_MAX;
+  k_x = -(polje/2-k_size/2) + (polje-k_size)*rand()/(float) RAND_MAX;
+  k_y = -(polje/2-k_size/2) + (polje-k_size)*rand()/(float) RAND_MAX;
   /*pocetna brzina konja*/
   k_vx =  k_size*0.01;
   k_vy =  k_size*0.01;
 
   /*pocetni polozaj psa na slucajnom mestu*/
   srand(time(NULL));
-  p_x = -(1-p_size/2) + (2-p_size)*rand()/(float) RAND_MAX;
-  p_y = -(1-p_size/2) + (2-p_size)*rand()/(float) RAND_MAX;
+  p_x = -(polje-p_size/2) + (2*polje-p_size)*rand()/(float) RAND_MAX;
+  p_y = -(polje-p_size/2) + (2*polje-p_size)*rand()/(float) RAND_MAX;
 
   /*brzina psa*/
   p_vx = -p_size/2 + p_size*rand()/(float)RAND_MAX;
   p_vy = -p_size/2 + p_size*rand()/(float)RAND_MAX;
 
-  drvo1_x = -(0.5-k_size/2) + (1-k_size)*rand()/(float) RAND_MAX;
-  drvo1_y = -(0.5-k_size/2) + (1-k_size)*rand()/(float) RAND_MAX;
+  drvo1_x = -(polje/2-k_size/2) + (polje-k_size)*rand()/(float) RAND_MAX;
+  drvo1_y = -(polje/2-k_size/2) + (polje-k_size)*rand()/(float) RAND_MAX;
   
   glClearColor(0.75, 0.4, 0.2, 0);
   glEnable(GL_DEPTH_TEST);
   /*uglavnom mi sluzi za teksture */
-  //   initialize();
+
+  //  initialize();
   
   glutMainLoop();
   return 0;
