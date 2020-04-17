@@ -86,5 +86,21 @@ static void on_keyboard(unsigned char key, int x, int y){
       glutPostRedisplay();
     }
     break;
+  case '7':
+    visina+=0.1;
+    glutPostRedisplay();
+    break;
+  case '1':
+    visina-=0.1;
+    glutPostRedisplay();
+    break;
+  case '0':
+    sirina-=0.1;
+    glutPostRedisplay();
+    break;
+  case '.':
+    sirina+=0.1;
+    glutPostRedisplay();
+    break;
   }
 }

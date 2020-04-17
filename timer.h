@@ -38,7 +38,9 @@ static void on_timer(int id){
            k_x = 0;
            k_y = 0;
       }    
-    //reiscrtavam
+
+
+  //reiscrtavam
   glutPostRedisplay();
 
      //prekidam igricu kad konj pobegne

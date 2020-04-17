@@ -46,14 +46,15 @@ int main(int argc, char ** argv){
   p_vx = -p_size/2 + p_size*rand()/(float)RAND_MAX;
   p_vy = -p_size/2 + p_size*rand()/(float)RAND_MAX;
 
+
   drvo1_x = -(polje/2-k_size/2) + (polje-k_size)*rand()/(float) RAND_MAX;
   drvo1_y = -(polje/2-k_size/2) + (polje-k_size)*rand()/(float) RAND_MAX;
   
-  glClearColor(0.75, 0.4, 0.2, 0);
+  glClearColor(0, 0.4, 0, 0);
   glEnable(GL_DEPTH_TEST);
   /*uglavnom mi sluzi za teksture */
 
-  //  initialize();
+  initialize();
   
   glutMainLoop();
   return 0;
@@ -88,7 +89,7 @@ static void on_reshape(int width, int height){
    glViewport(0, 0, width, height);
    glMatrixMode(GL_PROJECTION);
    glLoadIdentity();
-   gluPerspective(60, (float)width/(float)height, 1, 5);
+   gluPerspective(60, (float)width/(float)height, 1, 20);
 }
 
 
