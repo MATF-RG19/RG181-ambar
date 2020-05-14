@@ -11,11 +11,15 @@ static void on_timer(int id){
     return;
   //pomeram psa u smeru u kom ide dok ne dodje do ivice, a onda mu menjamo smer
   p_x +=p_vx;
-  if(p_x<=-(polje-p_size/2) || p_x>=polje-p_size/2)
+  if(p_x<=-(polje-p_size/2) || p_x>=polje-p_size/2){
     p_vx*=-1;
+    ugao+=90;
+  }
   p_y +=p_vy;
-  if(p_y<=-(polje-p_size/2) || p_y>=polje-p_size/2)
+  if(p_y<=-(polje-p_size/2) || p_y>=polje-p_size/2){
     p_vy*=-1;
+    ugao+=90;
+  }
   //pomeram konja u smeru u kom ide
   k_x += k_vx;
   k_y += k_vy;

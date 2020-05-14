@@ -1,6 +1,6 @@
 
 #define FILENAME3 "pas.bmp"
-#define FILENAME2 "ambar.bmp"
+#define FILENAME2 "wall.bmp"
 #define FILENAME1 "grass.bmp"
 #define FILENAME4 "horse.bmp"
 #define FILENAME5 "pas2.bmp"
@@ -52,13 +52,13 @@ static void initialize(void)
     
     glBindTexture(GL_TEXTURE_2D, names[2]);
     glTexParameteri(GL_TEXTURE_2D,
-                    GL_TEXTURE_WRAP_S, GL_CLAMP);
+                    GL_TEXTURE_WRAP_S, GL_REPEAT);
     glTexParameteri(GL_TEXTURE_2D,
-                    GL_TEXTURE_WRAP_T, GL_CLAMP);
+                    GL_TEXTURE_WRAP_T, GL_REPEAT);
     glTexParameteri(GL_TEXTURE_2D,
-                    GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+                    GL_TEXTURE_MAG_FILTER, GL_NEAREST);
     glTexParameteri(GL_TEXTURE_2D,
-                    GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+                    GL_TEXTURE_MIN_FILTER, GL_NEAREST);
     glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB,
                  image->width, image->height, 0,
                GL_RGB, GL_UNSIGNED_BYTE, image->pixels);

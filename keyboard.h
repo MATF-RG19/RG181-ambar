@@ -102,5 +102,15 @@ static void on_keyboard(unsigned char key, int x, int y){
     sirina+=0.1;
     glutPostRedisplay();
     break;
+  case '/':
+    parametar-=0.1;
+    parametar2 = visina-1;
+    glutPostRedisplay();
+    break;
+  case '*':
+    parametar+=0.1;
+    parametar2 = visina-1;
+    glutPostRedisplay();
+    break;
   }
 }
