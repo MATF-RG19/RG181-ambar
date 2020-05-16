@@ -1,5 +1,5 @@
 
-#define FILENAME3 "pas.bmp"
+#define FILENAME3 "drvo.bmp"
 #define FILENAME2 "wall.bmp"
 #define FILENAME1 "grass.bmp"
 #define FILENAME4 "horse.bmp"

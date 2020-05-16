@@ -49,6 +49,12 @@ int main(int argc, char ** argv){
 
   drvo1_x = -(polje/2-k_size/2) + (polje-k_size)*rand()/(float) RAND_MAX;
   drvo1_y = -(polje/2-k_size/2) + (polje-k_size)*rand()/(float) RAND_MAX;
+
+  drvo3_x = -(polje/2-k_size/2) + (polje-k_size)*rand()/(float) RAND_MAX;
+  drvo3_y = -(polje/2-k_size/2) + (polje-k_size)*rand()/(float) RAND_MAX;
+
+  drvo2_x = -(polje/2-k_size/2) + (polje-k_size)*rand()/(float) RAND_MAX;
+  drvo2_y = -(polje/2-k_size/2) + (polje-k_size)*rand()/(float) RAND_MAX;  
   
   glClearColor(0, 0.4, 0, 0);
   glEnable(GL_DEPTH_TEST);
@@ -60,27 +66,27 @@ int main(int argc, char ** argv){
   return 0;
 }
 
-static void draw_axes(int duzina){
+/* static void draw_axes(int duzina){ */
 
-  glDisable(GL_LIGHTING);
+/*   glDisable(GL_LIGHTING); */
   
-  glLineWidth(5);
-  glBegin(GL_LINES);
-  glColor3f(1, 0, 0);
-  glVertex3f(0, 0, 0.2);
-  glVertex3f(duzina, 0, 0);
+/*   glLineWidth(5); */
+/*   glBegin(GL_LINES); */
+/*   glColor3f(1, 0, 0); */
+/*   glVertex3f(0, 0, 0.2); */
+/*   glVertex3f(duzina, 0, 0); */
 
-  glColor3f(0, 1, 0);
-  glVertex3f(0, 0, 0.2);
-  glVertex3f(0, duzina, 0);
+/*   glColor3f(0, 1, 0); */
+/*   glVertex3f(0, 0, 0.2); */
+/*   glVertex3f(0, duzina, 0); */
 
-  glColor3f(0, 0, 1);
-  glVertex3f(0, 0, 0);
-  glVertex3f(0, 0, duzina);
-  glEnd();
+/*   glColor3f(0, 0, 1); */
+/*   glVertex3f(0, 0, 0); */
+/*   glVertex3f(0, 0, duzina); */
+/*   glEnd(); */
 
-  glEnable(GL_LIGHTING);
-}
+/*   glEnable(GL_LIGHTING); */
+/* } */
 
 static void on_reshape(int width, int height){
   
