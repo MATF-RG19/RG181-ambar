@@ -47,14 +47,14 @@ int main(int argc, char ** argv){
   p_vy = -p_size/2 + p_size*rand()/(float)RAND_MAX;
 
 
-  drvo1_x = -(polje/2-k_size/2) + (polje-k_size)*rand()/(float) RAND_MAX;
-  drvo1_y = -(polje/2-k_size/2) + (polje-k_size)*rand()/(float) RAND_MAX;
+  drvo1_x = polje*0.75;
+  drvo1_y = polje *0.75;
 
-  drvo3_x = -(polje/2-k_size/2) + (polje-k_size)*rand()/(float) RAND_MAX;
-  drvo3_y = -(polje/2-k_size/2) + (polje-k_size)*rand()/(float) RAND_MAX;
+  drvo3_x = -polje*0.40;
+  drvo3_y = polje*0.2;
 
-  drvo2_x = -(polje/2-k_size/2) + (polje-k_size)*rand()/(float) RAND_MAX;
-  drvo2_y = -(polje/2-k_size/2) + (polje-k_size)*rand()/(float) RAND_MAX;  
+  drvo2_x = polje*0.3;
+  drvo2_y = -polje*0.3;  
   
   glClearColor(0, 0.4, 0, 0);
   glEnable(GL_DEPTH_TEST);

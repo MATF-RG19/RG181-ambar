@@ -51,19 +51,36 @@ static void nacrtaj_drvo(float x, float y, float velicina, float visina){
   glPopMatrix();  
 }
 
-static void nacrtaj_coveka(){
+static void nacrtaj_coveka(float x, float y){
 
-    //crtam coveka ispred
   glPushMatrix();
-  glTranslatef(lgornji_x, polje, l_size/2);
+  glTranslatef(x, y, l_size/2);
+  //leva ruka
+  glRotatef(60, 0, 1, 0);
+  glTranslatef(-l_size/4, 0, l_size/3);
+  nacrtaj_valjak(l_size/2, l_size/13);
+  glTranslatef(l_size/4, 0, -l_size/3);
+  glRotatef(-60, 0, 1, 0);
+  //desna ruka
+  glRotatef(-60, 0, 1, 0);
+  glTranslatef(l_size/4, 0, l_size/3);
+  nacrtaj_valjak(l_size/2, l_size/13);
+  glTranslatef(-l_size/4, 0, -l_size/3);
+  glRotatef(60, 0, 1, 0);
+  
   //stomak
   glutSolidSphere(l_size/2, 10, 10);
-  glTranslatef(0, 0, l_size/2);
   //glava
+  glTranslatef(0, 0, l_size/2);
+  nacrtaj_valjak(l_size/4, l_size/8);
+  glTranslatef(0, 0, l_size/4);
   glutSolidSphere(l_size/4, 10, 10);
-  glTranslatef(0, 0, l_size/6);
   //sesir
-  glutSolidCone(l_size/2,l_size/4, 10, 10);
+  glTranslatef(0, 0, l_size/6);
+  glScalef(1, 1, 0.2);
+  glutSolidSphere(l_size/2, 10, 10);
+  glScalef(1, 1, 5);
+  nacrtaj_valjak(l_size/4, l_size/5);
   glPopMatrix();
 
 }
@@ -106,62 +123,18 @@ static void on_display(){
 	     0, 0, 1 );
 
   //crtam coveka ispred
-  glPushMatrix();
-  glTranslatef(lgornji_x, polje, l_size/2);
-  //stomak
-  glutSolidSphere(l_size/2, 10, 10);
-  glTranslatef(0, 0, l_size/2);
-  //glava
-  glutSolidSphere(l_size/4, 10, 10);
-  glTranslatef(0, 0, l_size/6);
-  //sesir
-  glutSolidCone(l_size/2,l_size/4, 10, 10);
-  glPopMatrix();
+  nacrtaj_coveka(lgornji_x, polje);
+
 
   //COVEK IZA
-  glPushMatrix();
-  glTranslatef(ldonji_x, -polje,l_size/2);
-  //stomak
-  glutSolidSphere(l_size/2, 10, 10);
-  glTranslatef(0, 0, l_size/2);
-  //glava
-  glutSolidSphere(l_size/4, 10, 10);
-  glTranslatef(0, 0, l_size/6);
-  // glScalef(0, 0, 0.5);
-  //sesir
-  glutSolidCone(l_size/2,l_size/4, 10, 10);
-  glPopMatrix();
-
-  // glColor3f(0,1, 0);
+  nacrtaj_coveka(ldonji_x, -polje);
 
   //LEVI COVEK
-  glPushMatrix();
-  glTranslatef(-polje, llevi_y, l_size/2);
-  //stomak
-  glutSolidSphere(l_size/2, 10, 10);
-  glTranslatef(0, 0, l_size/2);
-  //glava
-  glutSolidSphere(l_size/4, 10, 10);
-  glTranslatef(0, 0, l_size/6);
-  // glScalef(0, 0, 0.5);
-  //sesir
-  glutSolidCone(l_size/2,l_size/4, 10, 10);
-  glPopMatrix();
+  nacrtaj_coveka(-polje, llevi_y);
 
   //DESNI CUVAR
-  glPushMatrix();
-  
-  glTranslatef(polje, ldesni_y, l_size/2);
-  //stomak
-  glutSolidSphere(l_size/2, 10, 10);
-  glTranslatef(0, 0, l_size/2);
-  //glava
-  glutSolidSphere(l_size/4, 10, 10);
-  glTranslatef(0, 0, l_size/6);
-  // glScalef(0, 0, 0.5);
-  //sesir
-  glutSolidCone(l_size/2,l_size/4, 10, 10);
-  glPopMatrix();
+  nacrtaj_coveka(polje, ldesni_y);
+
 
   //crtam konja
   glPushMatrix();
