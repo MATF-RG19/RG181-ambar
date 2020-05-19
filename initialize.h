@@ -2,7 +2,7 @@
 #define FILENAME3 "drvo.bmp"
 #define FILENAME2 "wall.bmp"
 #define FILENAME1 "grass.bmp"
-#define FILENAME4 "horse.bmp"
+#define FILENAME4 "vuna.bmp"
 #define FILENAME5 "pas2.bmp"
 
 

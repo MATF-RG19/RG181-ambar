@@ -6,7 +6,7 @@ static float animation_ongoing = 0;
 static float rastojanje = 1.5;
 static float velicina_drveta = 1;
 static float visina_drveta=1.5;
-const static float k_size = 1;
+const static float k_size = 0.5;
 static float k_x, k_y, k_vx, k_vy;
 const static float l_size = 0.5;
 static float lgornji_x, lgornji_y, ldonji_x, ldonji_y, ldesni_x, ldesni_y,llevi_x, llevi_y;
@@ -18,6 +18,7 @@ static float sirina = -3;
 static float parametar = 0;
 static float parametar2 = 0;
 static float ugao = 0;
+static float velicina_ovce = 0.3;
 GLfloat boja_stabla[] = {0.7, 0.7, 0.7};
 //static void draw_axes(int n);
 
@@ -26,6 +27,58 @@ static void nacrtaj_valjak(float h, float r){
   obj = gluNewQuadric();
   gluCylinder(obj, r, r, h, 30, 30);
 }
+
+static void nacrtaj_konja(){
+    glPushMatrix();
+    glTranslatef(k_x, k_y, 0);
+    glScalef(2.5, 1, 1);   
+    //zadnja desna noga
+    glTranslatef(-k_size/2, -k_size/2, 0);
+    glutSolidCone(k_size/10, k_size/5, 30, 30);
+    nacrtaj_valjak(k_size, k_size/15);
+    glTranslatef(k_size/2, k_size/2, 0);
+    //zadnja leva noga
+    glTranslatef(-k_size/2, k_size/2, 0);
+    glutSolidCone(k_size/10, k_size/5, 30, 30);
+    nacrtaj_valjak(k_size, k_size/15);
+    glTranslatef(k_size/2, -k_size/2, 0);
+    //prednja leva noga
+    glTranslatef(k_size/2, k_size/2, 0);
+    glutSolidCone(k_size/10, k_size/5, 30, 30);
+    nacrtaj_valjak(k_size, k_size/15);
+    glTranslatef(-k_size/2,-k_size/2, 0);
+    //prednja desna noga
+    glTranslatef(k_size/2,-k_size/2, 0);
+    glutSolidCone(k_size/10, k_size/5, 30, 30);
+    nacrtaj_valjak(k_size, k_size/15);
+    glTranslatef(-k_size/2, k_size/2, 0);    
+    glTranslatef(0, 0, 1.5*k_size);
+    //    glRotatef(ugao, k_x, k_y, 1);
+    glutSolidSphere(k_size, 10, 10);
+    //vrat
+    glTranslatef(k_size*2/3, 0, k_size/2);
+    glRotatef(30, 0, 1, 0);
+    nacrtaj_valjak(k_size, k_size/5);
+    glRotatef(-30, 0, 1, 0);
+    glTranslatef(-k_size*2/3, 0, -k_size/2);
+    //rep
+     glTranslatef(-k_size*5/6, 0, 0);
+    glRotatef(-160, 0, 1, 0);
+    nacrtaj_valjak(k_size, k_size/10);
+    glRotatef(160, 0, 1, 0);
+    glTranslatef(k_size*5/6, 0, 0);
+    
+    //glava
+    glTranslatef(k_size*6/5, 0, k_size);
+    glScalef(1/2.5, 1, 2);
+    glRotatef(45, 0, 1, 0);
+    glutSolidSphere(k_size/2, 10, 10);
+    glTranslatef(0, -k_size/2, k_size/3);
+    glutSolidCone(k_size/5, k_size/5, 30, 30);
+    glPopMatrix();
+
+}
+
 
 static void nacrtaj_drvo(float x, float y, float velicina, float visina){
 
@@ -85,6 +138,92 @@ static void nacrtaj_coveka(float x, float y){
 
 }
 
+static void nacrtaj_ovcu(float k_x, float k_y, float k_size){
+
+  glPushMatrix();
+  
+  glBindTexture(GL_TEXTURE_2D, names[4]);
+  glEnable(GL_TEXTURE_2D);
+  glEnable(GL_TEXTURE_GEN_S);
+  glEnable(GL_TEXTURE_GEN_T);
+  glTexGeni(GL_S, GL_TEXTURE_GEN_MODE, GL_SPHERE_MAP);
+  glTexGeni(GL_T, GL_TEXTURE_GEN_MODE, GL_SPHERE_MAP);
+  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+      
+    glTranslatef(k_x, k_y, 0);
+    glScalef(2.5, 1, 1);   
+    //zadnja desna noga
+    glTranslatef(-k_size/2, -k_size/2, 0);
+    glutSolidCone(k_size/10, k_size/5, 30, 30);
+    nacrtaj_valjak(k_size, k_size/15);
+    glTranslatef(k_size/2, k_size/2, 0);
+    //zadnja leva noga
+    glTranslatef(-k_size/2, k_size/2, 0);
+    glutSolidCone(k_size/10, k_size/5, 30, 30);
+    nacrtaj_valjak(k_size, k_size/15);
+    glTranslatef(k_size/2, -k_size/2, 0);
+    //prednja leva noga
+    glTranslatef(k_size/2, k_size/2, 0);
+    glutSolidCone(k_size/10, k_size/5, 30, 30);
+    nacrtaj_valjak(k_size, k_size/15);
+    glTranslatef(-k_size/2,-k_size/2, 0);
+    //prednja desna noga
+    glTranslatef(k_size/2,-k_size/2, 0);
+    glutSolidCone(k_size/10, k_size/5, 30, 30);
+    nacrtaj_valjak(k_size, k_size/15);
+    glTranslatef(-k_size/2, k_size/2, 0);    
+    glTranslatef(0, 0, 1.5*k_size);
+    //    glRotatef(ugao, k_x, k_y, 1);
+    glutSolidSphere(k_size, 10, 10);
+    //vrat
+    glTranslatef(k_size/2, 0, k_size/2);
+    glRotatef(30, 0, 1, 0);
+    nacrtaj_valjak(k_size, k_size/5);
+    glRotatef(-30, 0, 1, 0);
+    glTranslatef(-k_size/2, 0, -k_size/2);
+    //rep
+     glTranslatef(-k_size*5/6, 0, 0);
+    glRotatef(-160, 0, 1, 0);
+    nacrtaj_valjak(k_size, k_size/10);
+    glRotatef(160, 0, 1, 0);
+    glTranslatef(k_size*5/6, 0, 0);
+    
+    //glava
+    glTranslatef(k_size, 0, k_size);
+    glutSolidSphere(k_size/2, 10, 10);
+  
+
+  glDisable(GL_TEXTURE_GEN_S);
+  glDisable(GL_TEXTURE_GEN_T);
+  glDisable(GL_TEXTURE_2D);
+
+  glPopMatrix();  
+
+}
+
+static void nacrtaj_psa(){
+
+  glPushMatrix();
+  glEnable(GL_TEXTURE_2D);
+  glBindTexture(GL_TEXTURE_2D, names[5]);
+  glEnable(GL_TEXTURE_GEN_S);
+  glEnable(GL_TEXTURE_GEN_T);
+  glTexGeni(GL_S, GL_TEXTURE_GEN_MODE, GL_SPHERE_MAP);
+  glTexGeni(GL_T, GL_TEXTURE_GEN_MODE, GL_SPHERE_MAP);
+  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+  glTranslatef(p_x, p_y, p_size/2); 
+  glutSolidSphere(p_size/2, 10, 10); 
+  glDisable(GL_TEXTURE_GEN_S);
+  glDisable(GL_TEXTURE_GEN_T);
+  // glDisable(GL_TEXTURE_2D); 
+  glPopMatrix();
+
+  
+}
+
+
 static void on_display(){
        
   GLfloat light_position[]={1, 1, 1, 0};
@@ -137,39 +276,11 @@ static void on_display(){
 
 
   //crtam konja
-  glPushMatrix();
-  glTranslatef(k_x, k_y, k_size/2);
-   glRotatef(ugao, k_x, k_y, 1);
-   glutSolidSphere(k_size/2, 10, 10);
-   glTranslatef(k_size/2, k_size/4, 0);
-   glutSolidSphere(k_size/4, 10, 10);
-  glPopMatrix();
+  nacrtaj_konja();
 
 
   /* //crtam psa */
-  /* glPushMatrix(); */
-  /* glTranslatef(p_x, p_y, p_size/2); */
-  /* glutSolidSphere(p_size/2, 10, 10); */
-  /* glPopMatrix(); */
-
-  glPushMatrix();
-  glColor3f(1, 1, 1);
-  //  glEnable(GL_TEXTURE_2D);
-  glBindTexture(GL_TEXTURE_2D, names[2]);
-  glEnable(GL_TEXTURE_GEN_S);
-  glEnable(GL_TEXTURE_GEN_T);
-  glTexGeni(GL_S, GL_TEXTURE_GEN_MODE, GL_SPHERE_MAP);
-  glTexGeni(GL_T, GL_TEXTURE_GEN_MODE, GL_SPHERE_MAP);
-  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-  glTranslatef(p_x, p_y, p_size/2); 
-  glutSolidSphere(p_size/2, 10, 10); 
-  glDisable(GL_TEXTURE_GEN_S);
-  glDisable(GL_TEXTURE_GEN_T);
-  // glDisable(GL_TEXTURE_2D); 
-  glPopMatrix();
-
-  
+  nacrtaj_psa();
   
 
 
@@ -254,6 +365,8 @@ static void on_display(){
    nacrtaj_drvo(drvo2_x, drvo2_y, velicina_drveta, visina_drveta);
    nacrtaj_drvo(drvo3_x, drvo3_y, velicina_drveta, visina_drveta);
 
+   nacrtaj_ovcu(-polje/2, polje/2, velicina_ovce);
+   
    //  draw_axes(polje + 5);
      //saljemo novu sliku na ekran  
   glutSwapBuffers();
