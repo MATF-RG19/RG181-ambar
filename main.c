@@ -55,6 +55,18 @@ int main(int argc, char ** argv){
 
   drvo2_x = polje*0.3;
   drvo2_y = -polje*0.3;  
+
+  o1_x = -polje/2;
+  o1_y = polje/2;
+  o2_x = -polje/2;
+  o2_y = polje/4;
+  o3_x = polje/2;
+  o3_y = polje/4;
+  o4_x = polje/2;
+  o4_y = polje/2;
+  o5_x = -polje/4;
+  o5_y = polje/2;
+
   
   glClearColor(0, 0.4, 0, 0);
   glEnable(GL_DEPTH_TEST);

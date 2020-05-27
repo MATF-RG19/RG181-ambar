@@ -42,8 +42,37 @@ static void on_timer(int id){
            k_x = 0;
            k_y = 0;
       }    
-
-
+  if(dalekoOdKonja(o1_x, o1_y)<2*rastojanje){
+    if(o1_x < 0)
+      o1_x +=rastojanje*2;
+    else
+      o1_x-=rastojanje*2;
+  }
+ if(dalekoOdKonja(o2_x, o2_y)<2*rastojanje){
+    if(o2_x < 0)
+      o2_x +=rastojanje*2;
+    else
+      o2_x-=rastojanje*2;
+  }
+  if(dalekoOdKonja(o3_x, o3_y)<2*rastojanje){
+    if(o3_x < 0)
+      o3_x +=rastojanje*2;
+    else
+      o3_x-=rastojanje*2;
+  }
+ if(dalekoOdKonja(o4_x, o4_y)<2*rastojanje){
+    if(o4_x < 0)
+      o4_x +=rastojanje*2;
+    else
+      o4_x-=rastojanje*2;
+  }
+   if(dalekoOdKonja(o5_x, o5_y)<2*rastojanje){
+    if(o5_x < 0)
+      o5_x +=rastojanje*2;
+    else
+      o5_x-=rastojanje*2;
+  }
+  
   //reiscrtavam
   glutPostRedisplay();
 

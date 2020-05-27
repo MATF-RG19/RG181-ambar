@@ -4,7 +4,7 @@
 #define FILENAME1 "grass.bmp"
 #define FILENAME4 "vuna.bmp"
 #define FILENAME5 "pas2.bmp"
-
+#define FILENAME6 "horse.bmp"
 
 /*identifikatori tekstura*/
 static GLuint names[10];
@@ -76,8 +76,23 @@ static void initialize(void)
                     GL_TEXTURE_MIN_FILTER, GL_LINEAR);
     glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB,
                  image->width, image->height, 0,
-               GL_RGB, GL_UNSIGNED_BYTE, image->pixels);
+                 GL_RGB, GL_UNSIGNED_BYTE, image->pixels);
 
+
+        /*kreira se konj*/
+    image_read(image, FILENAME6);
+    glBindTexture(GL_TEXTURE_2D, names[6]);
+    glTexParameteri(GL_TEXTURE_2D,
+                    GL_TEXTURE_WRAP_S, GL_CLAMP);
+    glTexParameteri(GL_TEXTURE_2D,
+                    GL_TEXTURE_WRAP_T, GL_CLAMP);
+    glTexParameteri(GL_TEXTURE_2D,
+                    GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D,
+                    GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB,
+                 image->width, image->height, 0,
+		 GL_RGB, GL_UNSIGNED_BYTE, image->pixels);
     /*kreira se konj*/
     image_read(image, FILENAME4);
     glBindTexture(GL_TEXTURE_2D, names[4]);

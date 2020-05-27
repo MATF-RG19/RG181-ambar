@@ -19,6 +19,7 @@ static float parametar = 0;
 static float parametar2 = 0;
 static float ugao = 0;
 static float velicina_ovce = 0.3;
+static float o1_x, o1_y,o2_x, o2_y,o3_x, o3_y,o4_x, o4_y,o5_x, o5_y;
 GLfloat boja_stabla[] = {0.7, 0.7, 0.7};
 //static void draw_axes(int n);
 
@@ -30,6 +31,16 @@ static void nacrtaj_valjak(float h, float r){
 
 static void nacrtaj_konja(){
     glPushMatrix();
+   
+      glBindTexture(GL_TEXTURE_2D, names[6]);
+  glEnable(GL_TEXTURE_2D);
+  glEnable(GL_TEXTURE_GEN_S);
+  glEnable(GL_TEXTURE_GEN_T);
+  glTexGeni(GL_S, GL_TEXTURE_GEN_MODE, GL_SPHERE_MAP);
+  glTexGeni(GL_T, GL_TEXTURE_GEN_MODE, GL_SPHERE_MAP);
+  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+
     glTranslatef(k_x, k_y, 0);
     glScalef(2.5, 1, 1);   
     //zadnja desna noga
@@ -73,8 +84,15 @@ static void nacrtaj_konja(){
     glScalef(1/2.5, 1, 2);
     glRotatef(45, 0, 1, 0);
     glutSolidSphere(k_size/2, 10, 10);
-    glTranslatef(0, -k_size/2, k_size/3);
+    glTranslatef(-k_size/4,-k_size/4, k_size/4);
+    glRotatef(90, 0, 1, 1);
     glutSolidCone(k_size/5, k_size/5, 30, 30);
+
+    
+  glDisable(GL_TEXTURE_GEN_S);
+  glDisable(GL_TEXTURE_GEN_T);
+  glDisable(GL_TEXTURE_2D);
+    
     glPopMatrix();
 
 }
@@ -276,8 +294,12 @@ static void on_display(){
 
 
   //crtam konja
+  glPushMatrix();
+  glTranslatef(k_x, k_y,0);
+  glRotatef(ugao, 0, 0, 1);
+  glTranslatef(-k_x, -k_y, 0);
   nacrtaj_konja();
-
+  glPopMatrix();
 
   /* //crtam psa */
   nacrtaj_psa();
@@ -365,8 +387,40 @@ static void on_display(){
    nacrtaj_drvo(drvo2_x, drvo2_y, velicina_drveta, visina_drveta);
    nacrtaj_drvo(drvo3_x, drvo3_y, velicina_drveta, visina_drveta);
 
-   nacrtaj_ovcu(-polje/2, polje/2, velicina_ovce);
-   
+
+   nacrtaj_ovcu(o1_x, o1_y, velicina_ovce);
+
+   glPushMatrix();
+   glTranslatef(o2_x, o2_y, 0);
+   glRotatef(30, 0, 0, 1);
+   glTranslatef(-o2_x, -o2_y , 0);
+   nacrtaj_ovcu(o2_x, o2_y, velicina_ovce);
+   glPopMatrix();
+
+   glPushMatrix();
+    glTranslatef(o3_x, o3_y, 0);
+   glRotatef(-30, 0, 0, 1);
+   glTranslatef(-o3_x, -o3_y , 0); 
+   nacrtaj_ovcu(o3_x, o3_y, velicina_ovce);
+   glPopMatrix();
+
+   glPushMatrix();
+   glTranslatef(o4_x, o4_y, 0);
+   glRotatef(79, 0, 0, 1);
+   glTranslatef(-o4_x, -o4_y , 0);
+   nacrtaj_ovcu(o4_x, o4_y, velicina_ovce);
+   glPopMatrix();
+
+   glPushMatrix();
+   glTranslatef(o5_x, o5_y, 0);
+   glRotatef(-90, 0, 0, 1);
+   glTranslatef(-o5_x, -o5_y , 0);
+   nacrtaj_ovcu(o5_x, o5_y, velicina_ovce);
+   glPopMatrix();
+
+
+
+      
    //  draw_axes(polje + 5);
      //saljemo novu sliku na ekran  
   glutSwapBuffers();
