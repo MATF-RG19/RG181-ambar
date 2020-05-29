@@ -5,33 +5,88 @@ static float dalekoOdKonja(float x, float y){
   return sqrt( (k_x-x)*(k_x-x) + (k_y-y)*(k_y-y) );
 }
 
+static void beziOdKonja(float * o_x, float* o_y){
+  if(dalekoOdKonja(*o_x, *o_y)<2*rastojanje){
+    if(*o_x > k_x)//ako je ovca desno od konja
+      if(*o_x + 2*rastojanje<polje)
+         *o_x +=rastojanje*2;
+      else
+	*o_x-=rastojanje*2;
+    else
+      if(*o_x-2*rastojanje > -polje)
+        *o_x-=rastojanje*2;
+      else
+	*o_x+=rastojanje*2;
+  }
+}
+
 static void on_timer(int id){
   //proveravam da li je pravi tajmer
   if(id!=TIMER_ID)
     return;
   //pomeram psa u smeru u kom ide dok ne dodje do ivice, a onda mu menjamo smer
   p_x +=p_vx;
+  
   if(p_x<=-(polje-p_size/2) || p_x>=polje-p_size/2){
     p_vx*=-1;
-    ugao+=90;
+
   }
   p_y +=p_vy;
   if(p_y<=-(polje-p_size/2) || p_y>=polje-p_size/2){
     p_vy*=-1;
-    ugao+=90;
+
   }
   //pomeram konja u smeru u kom ide
   k_x += k_vx;
   k_y += k_vy;
   //ako je rastojanje konja od pasa sa strane ili onog u sredini manje od zadatog
   //menjam smer kretanja
-  if(dalekoOdKonja(llevi_x, llevi_y) <rastojanje
-     || dalekoOdKonja(ldesni_x, ldesni_y) <rastojanje)
-           k_vx = k_vx * -1;
+  /* if(dalekoOdKonja(llevi_x, llevi_y) <rastojanje */
+  /*    || dalekoOdKonja(ldesni_x, ldesni_y) <rastojanje) */
+  /*   {  k_vx = k_vx * -1; */
+  /*          ugao+=90; */
+  /*         rotiraj = 1; */
+      
+  /*   } */
 
-  if(dalekoOdKonja(lgornji_x, lgornji_y) <rastojanje
-     || dalekoOdKonja(ldonji_x, ldonji_y) <rastojanje)  
-           k_vy = k_vy * -1;
+
+
+  if(dalekoOdKonja(llevi_x, llevi_y) <rastojanje)
+    {  k_vx = k_vx * -1;
+      k_x = k_x + rastojanje/2;
+           ugao=0;
+          rotiraj = 0;
+      
+    }
+
+  
+if( dalekoOdKonja(ldesni_x, ldesni_y) <rastojanje) 
+    {  k_vx = k_vx * -1;
+           ugao=180;
+          rotiraj = 1;
+          k_x = k_x - rastojanje/2;
+    }
+
+  
+
+  
+  if(dalekoOdKonja(lgornji_x, lgornji_y) <rastojanje)
+    {   k_vy = k_vy * -1;
+            ugao=-90;
+            rotiraj= 1;
+            k_y-=rastojanje/2;
+    }
+
+    
+  
+  if( dalekoOdKonja(ldonji_x, ldonji_y) <rastojanje)
+    {   k_vy = k_vy * -1;
+            ugao=90;
+            rotiraj= 1;
+	    k_y +=rastojanje/2;
+    }
+
+
 
   if(dalekoOdKonja(p_x, p_y) <rastojanje){
            k_vx *= -1;
@@ -42,37 +97,25 @@ static void on_timer(int id){
            k_x = 0;
            k_y = 0;
       }    
-  if(dalekoOdKonja(o1_x, o1_y)<2*rastojanje){
-    if(o1_x < 0)
-      o1_x +=rastojanje*2;
-    else
-      o1_x-=rastojanje*2;
-  }
- if(dalekoOdKonja(o2_x, o2_y)<2*rastojanje){
-    if(o2_x < 0)
-      o2_x +=rastojanje*2;
-    else
-      o2_x-=rastojanje*2;
-  }
-  if(dalekoOdKonja(o3_x, o3_y)<2*rastojanje){
-    if(o3_x < 0)
-      o3_x +=rastojanje*2;
-    else
-      o3_x-=rastojanje*2;
-  }
- if(dalekoOdKonja(o4_x, o4_y)<2*rastojanje){
-    if(o4_x < 0)
-      o4_x +=rastojanje*2;
-    else
-      o4_x-=rastojanje*2;
-  }
-   if(dalekoOdKonja(o5_x, o5_y)<2*rastojanje){
-    if(o5_x < 0)
-      o5_x +=rastojanje*2;
-    else
-      o5_x-=rastojanje*2;
-  }
-  
+
+  beziOdKonja(&o1_x, &o1_y);
+  beziOdKonja(&o2_x, &o2_y);
+  beziOdKonja(&o3_x, &o3_y);
+  beziOdKonja(&o4_x, &o4_y);
+  beziOdKonja(&o5_x, &o5_y);
+   //parametar za pomeranje nogu konja
+   if(i)
+     {
+       ugao_nogu+=4;
+       if(ugao_nogu>30)
+	 i=0;
+     }
+   else{
+     ugao_nogu-=4;
+     if(ugao_nogu<-30)
+       i=1;
+   }
+      
   //reiscrtavam
   glutPostRedisplay();
 

@@ -1,4 +1,3 @@
-
 static int window_width, window_height;
 static float polje = 10;
 static float velicina_ambara = 1.2;
@@ -6,7 +5,7 @@ static float animation_ongoing = 0;
 static float rastojanje = 1.5;
 static float velicina_drveta = 1;
 static float visina_drveta=1.5;
-const static float k_size = 0.5;
+const static float k_size = 0.3;
 static float k_x, k_y, k_vx, k_vy;
 const static float l_size = 0.5;
 static float lgornji_x, lgornji_y, ldonji_x, ldonji_y, ldesni_x, ldesni_y,llevi_x, llevi_y;
@@ -17,8 +16,11 @@ static float visina = 3;
 static float sirina = -3;
 static float parametar = 0;
 static float parametar2 = 0;
-static float ugao = 0;
-static float velicina_ovce = 0.3;
+static int  ugao = 0;
+static float ugao_nogu= 0;
+static int i = 1; //indikator za ugao nogu
+int rotiraj = 0;
+static float velicina_ovce = 0.15;
 static float o1_x, o1_y,o2_x, o2_y,o3_x, o3_y,o4_x, o4_y,o5_x, o5_y;
 GLfloat boja_stabla[] = {0.7, 0.7, 0.7};
 //static void draw_axes(int n);
@@ -44,25 +46,33 @@ static void nacrtaj_konja(){
     glTranslatef(k_x, k_y, 0);
     glScalef(2.5, 1, 1);   
     //zadnja desna noga
-    glTranslatef(-k_size/2, -k_size/2, 0);
+    glTranslatef(-k_size/2, -k_size/2, k_size);
+    glRotatef(ugao_nogu-180, 0, 1, 0);
     glutSolidCone(k_size/10, k_size/5, 30, 30);
     nacrtaj_valjak(k_size, k_size/15);
-    glTranslatef(k_size/2, k_size/2, 0);
+    glRotatef(-ugao_nogu+180, 0, 1, 0);
+    glTranslatef(k_size/2, k_size/2, -k_size);
     //zadnja leva noga
-    glTranslatef(-k_size/2, k_size/2, 0);
+    glTranslatef(-k_size/2, k_size/2, k_size);
+      glRotatef(ugao_nogu-180, 0, 1, 0);
     glutSolidCone(k_size/10, k_size/5, 30, 30);
     nacrtaj_valjak(k_size, k_size/15);
-    glTranslatef(k_size/2, -k_size/2, 0);
+      glRotatef(-ugao_nogu+180, 0, 1, 0);
+    glTranslatef(k_size/2, -k_size/2, -k_size);
     //prednja leva noga
-    glTranslatef(k_size/2, k_size/2, 0);
+    glTranslatef(k_size/2, k_size/2, k_size);
+      glRotatef(-ugao_nogu-180, 0, 1, 0);
     glutSolidCone(k_size/10, k_size/5, 30, 30);
     nacrtaj_valjak(k_size, k_size/15);
-    glTranslatef(-k_size/2,-k_size/2, 0);
+      glRotatef(ugao_nogu+180, 0, 1, 0);
+    glTranslatef(-k_size/2,-k_size/2, -k_size);
     //prednja desna noga
-    glTranslatef(k_size/2,-k_size/2, 0);
+    glTranslatef(k_size/2,-k_size/2, k_size);
+  glRotatef(-ugao_nogu-180, 0, 1, 0);    
     glutSolidCone(k_size/10, k_size/5, 30, 30);
     nacrtaj_valjak(k_size, k_size/15);
-    glTranslatef(-k_size/2, k_size/2, 0);    
+      glRotatef(ugao_nogu+180, 0, 1, 0);
+    glTranslatef(-k_size/2, k_size/2, -k_size);    
     glTranslatef(0, 0, 1.5*k_size);
     //    glRotatef(ugao, k_x, k_y, 1);
     glutSolidSphere(k_size, 10, 10);
@@ -295,9 +305,11 @@ static void on_display(){
 
   //crtam konja
   glPushMatrix();
-  glTranslatef(k_x, k_y,0);
-  glRotatef(ugao, 0, 0, 1);
-  glTranslatef(-k_x, -k_y, 0);
+  if(rotiraj){
+    glTranslatef(k_x, k_y,0);
+    glRotatef(ugao, 0, 0, 1);
+    glTranslatef(-k_x, -k_y, 0);
+  }
   nacrtaj_konja();
   glPopMatrix();
 
