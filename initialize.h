@@ -1,10 +1,10 @@
 
-#define FILENAME3 "drvo.bmp"
-#define FILENAME2 "wall.bmp"
-#define FILENAME1 "grass.bmp"
-#define FILENAME4 "vuna.bmp"
-#define FILENAME5 "pas2.bmp"
-#define FILENAME6 "horse.bmp"
+#define FILENAME3 "./teksture/drvo.bmp"
+#define FILENAME2 "./teksture/wall.bmp"
+#define FILENAME1 "./teksture/grass.bmp"
+#define FILENAME4 "./teksture/vuna.bmp"
+#define FILENAME5 "./teksture/pas2.bmp"
+#define FILENAME6 "./teksture/horse.bmp"
 
 /*identifikatori tekstura*/
 static GLuint names[10];
