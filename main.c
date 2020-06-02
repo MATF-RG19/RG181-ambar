@@ -34,8 +34,8 @@ int main(int argc, char ** argv){
   k_x = -(polje/2-k_size/2) + (polje-k_size)*rand()/(float) RAND_MAX;
   k_y = -(polje/2-k_size/2) + (polje-k_size)*rand()/(float) RAND_MAX;
   /*pocetna brzina konja*/
-  k_vx =  k_size*0.01;
-  k_vy =  k_size*0.01;
+  k_vx =  k_size*0.16;
+  k_vy =  k_size*0.16;
 
   /*pocetni polozaj psa na slucajnom mestu*/
   srand(time(NULL));
