@@ -2,7 +2,8 @@
 Ambar
 prevodjenje:
 
-gcc ambar.c image.c  -lglut -lGLU -lGL -lm
+gcc main.c image.c  -lglut -lGLU -lGL -lm   ILI komandom make
+folder se cisti od suvisnih fajlova sa make clean
 
 pokretanje ./a.out
 

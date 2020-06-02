@@ -1,8 +1,0 @@
-ambar: main.o image.o
-	gcc main.o image.o -o ambar
-
-main.o: main.c display.h timer.h initialize.h
-	gcc -c main.c -lglut -lGLU -lGL -lm
-
-image.o: image.c image.h
-	gcc -c image.c
