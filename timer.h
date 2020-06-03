@@ -1,3 +1,4 @@
+#include<math.h>
 #define TIMER_ID 0
 #define TIMER_INTERVAL 20
 
@@ -83,9 +84,15 @@ static void on_timer(int id){
   if(dalekoOdKonja(p_x, p_y) <rastojanje){
            k_vx *= -1;
            k_vy *= -1;
-          
 	   rotiraj = 1;
-	   ugao *=-1;
+           if(abs(k_vx)>abs(k_vy))
+	     {
+	        
+	        ugao=180;
+	     }
+	   else{
+	     ugao = 90;
+	        }
       }
     //ako je konj usao u ambar, smiruje se
   if(dalekoOdKonja(0, 0)<velicina_ambara/2){

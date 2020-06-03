@@ -46,8 +46,8 @@ int main(int argc, char ** argv){
   // p_vx = -p_size/2 + p_size*rand()/(float)RAND_MAX;
   // p_vy = -p_size/2 + p_size*rand()/(float)RAND_MAX;
 
-  p_vx = 4*k_vx;
-  p_vy = 4*k_vy;
+  p_vx = 8*k_vx;
+  p_vy = 8*k_vy;
 
   drvo1_x = polje*0.75;
   drvo1_y = polje *0.75;
